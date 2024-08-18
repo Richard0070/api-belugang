@@ -4,14 +4,14 @@ import aiohttp
 from io import BytesIO
 import asyncio
 import math
-from quart import Quart, send_file, request
+from quart import Quart, send_file, request, render_template
 from functions import *
 
 app = Quart(__name__)
 
 @app.route("/")
-def start():
-    return "♥️ BeluGANG API is Live!"
+def index():
+    return render_template('index.html')
     
 @app.route('/generate_card')
 async def card_endpoint():
