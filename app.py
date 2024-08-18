@@ -32,8 +32,8 @@ async def card_endpoint():
 
     img_byte_array = await card(username, pfp_url, level, xp, xp_out_of, rank, color="card_base")
     
-    return await send_file(img_byte_array, mimetype='image/png', as_attachment=True, attachment_filename='rankcard.png')
-    
+    return send_file(img_byte_array, mimetype='image/png')
+        
 async def card(username, pfp_url, level, xp, xp_out_of, rank, color):
     # Fetch and process the profile picture
     async with aiohttp.ClientSession() as session:
