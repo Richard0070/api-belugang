@@ -4,3 +4,4 @@
 ## 🔗 Current Endpoints —
 
 1. `/generate_card`
+2. `/redirect`
