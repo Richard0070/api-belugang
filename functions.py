@@ -90,6 +90,37 @@ def draw_rounded_rectangle(draw, xy, color, border_radius, transparency_percenta
     fill_color = (color_rgb[0], color_rgb[1], color_rgb[2], alpha)
     draw.rectangle([x1 + border_radius, y1, x2 - border_radius, y2], fill=fill_color)
 
+def progress_bar_image(percentage, height_pixels, width_pixels, color_hex, transparency_percentage):
+    if percentage < 7:
+        percentage = 7
+    if percentage > 93:
+        percentage = 93
+    # Create a blank image with an RGBA mode
+    image = Image.new('RGBA', (width_pixels, height_pixels), (255, 255, 255, 0))
+
+    # Create a drawing object
+    draw = ImageDraw.Draw(image)
+
+    # Calculate the width of the filled portion based on the percentage
+    fill_width = int(width_pixels * percentage / 100)
+
+    # Draw the background rectangle with curved edges and transparency
+    border_radius = 10
+    draw_rounded_rectangle(draw, [(0, 0), (width_pixels, height_pixels)], color_hex, border_radius, transparency_percentage)
+
+    # Draw the filled portion with curved edges and no transparency
+    draw_rounded_rectangle(draw, [(0, 0), (fill_width, height_pixels)], color_hex, border_radius)
+
+    # Draw the transparent portion with curved edges and transparency
+    transparent_width = width_pixels - fill_width
+    draw_rounded_rectangle(draw, [(fill_width, 0), (width_pixels, height_pixels)], color_hex, border_radius, transparency_percentage)
+
+    # Enlarge the image by 30%
+    enlarged_image = image.resize((int(width_pixels * 1.4), int(height_pixels * 1.4)))
+
+    # Return the enlarged image
+    return enlarged_image
+    
 # Special character replacements
 special_char_replacements = {
     "LkU0mY": '?',
