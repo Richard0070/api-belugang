@@ -15,23 +15,6 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
     
-from PIL import Image, ImageDraw, ImageFont
-import os
-import aiohttp
-from io import BytesIO
-import asyncio
-from datetime import datetime
-import math
-import requests
-from flask import Flask, send_file, request, render_template
-from functions import *
-
-app = Flask(__name__)
-
-@app.route("/")
-def index():
-    return render_template('index.html')
-
 @app.route('/generate_card')
 async def card_endpoint():
     encrypted_query = request.args.get('query')
