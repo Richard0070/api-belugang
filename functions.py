@@ -1,5 +1,29 @@
 from PIL import Image, ImageDraw
+import time
 
+def round_to_lowest_hundred(number):
+    number = int(number)
+    if int(number) < 1000:
+        return str(number)
+    elif int(number) < 10000:
+        return f"{number/1000:.1f}k"
+    else:
+        return f"{number/1000:.0f}k"
+
+def shorten_int(n):
+    suffixes = ['', 'k', 'M', 'B', 'T', 'P', 'E', 'Z', 'Y']
+    magnitude = 0
+    while abs(n) >= 1000:
+        magnitude += 1
+        n /= 1000.0
+    if abs(n) < 10 and n != 0:
+        result = '{:.1f}{}'.format(n, suffixes[magnitude])
+        if result.startswith('0'):
+            result = result[1:]
+        return result.rstrip('0').rstrip('.').replace('.0', '')
+    else:
+        return '{:.0f}{}'.format(n, suffixes[magnitude])
+        
 def get_hex_code(color_name):
     color_dict = {
         'blue': '#3498DB',
