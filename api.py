@@ -7,12 +7,6 @@ import math
 from quart import Quart, send_file, request
 from functions import *
 
-from quart import Quart, send_file, request
-import aiohttp
-from PIL import Image, ImageDraw, ImageFont
-from io import BytesIO
-from functions import *
-
 app = Quart(__name__)
 
 @app.route('/generate_card')
