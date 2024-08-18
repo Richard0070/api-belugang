@@ -1,0 +1,1 @@
+Rank card base templates
