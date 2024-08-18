@@ -15,15 +15,40 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
     
+from PIL import Image, ImageDraw, ImageFont
+import os
+import aiohttp
+from io import BytesIO
+import asyncio
+from datetime import datetime
+import math
+import requests
+from flask import Flask, send_file, request, render_template
+from functions import *
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return render_template('index.html')
+
 @app.route('/generate_card')
 async def card_endpoint():
-    username = request.args.get('username')
-    pfp_url = request.args.get('pfp_url')
-    level = request.args.get('level')
-    xp = request.args.get('xp')
-    xp_out_of = request.args.get('xp_out_of')
-    rank = request.args.get('rank')
-    color = request.args.get('color')
+    encrypted_query = request.args.get('query')
+
+    if not encrypted_query:
+        return "Missing parameters", 400
+
+    # Decode the encrypted query string
+    decoded_data = decode(encrypted_query)
+    # Extract data from the decoded dictionary
+    username = decoded_data.get('username')
+    pfp_url = decoded_data.get('pfp_url')
+    level = decoded_data.get('level')
+    xp = decoded_data.get('xp')
+    xp_out_of = decoded_data.get('xp_out_of')
+    rank = decoded_data.get('rank')
+    color = decoded_data.get('color')
 
     if not all([username, pfp_url, level, xp, xp_out_of, rank, color]):
         return "Missing parameters", 400
