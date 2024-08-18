@@ -1,5 +1,39 @@
 from PIL import Image, ImageDraw
 
+def get_hex_code(color_name):
+    color_dict = {
+        'blue': '#3498DB',
+        'brown': '#8B4513',
+        'burgundy': '#800020',
+        'cerise': '#DE3163',
+        'cyan': '#00FFFF',
+        'gold': '#FFD700',
+        'gray': '#808080',
+        'green': '#008000',
+        'lavender': '#C277EF',
+        'midnight': '#191970',
+        'orange': '#FFA500',
+        'pink': '#ff66e8',
+        'purple': '#800080',
+        'red': '#FF0000',
+        'salmon': '#FA8072',
+        'tangerine': '#FFA07A',
+        'teal': '#008080',
+        'violet': '#EE82EE',
+        'white': '#FFFFFF',
+        'yellow': '#f1c431',
+        "arcane": "#41B2B0"
+    }
+
+    # Convert color_name to lowercase to handle case-insensitivity
+    lower_color_name = color_name.lower()
+
+    # Check if the color name is in the dictionary
+    if lower_color_name in color_dict:
+        return color_dict[lower_color_name]
+    else:
+        return f"Hex code not found for {color_name}"
+
 def hex_to_rgb(hex_color):
     # Remove '#' if it exists in the hex color code
     hex_color = hex_color.lstrip('#')
