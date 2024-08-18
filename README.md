@@ -1,5 +1,5 @@
 # 🌐 BeluGANG's Private API
-~ created by @royalrizen & @thediamondroblox
+> created by **@royalrizen** & **@thediamondroblox**
 
 ## Current Endpoints —
 
