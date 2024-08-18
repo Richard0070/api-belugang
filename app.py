@@ -189,11 +189,11 @@ def create_redirect_image(redirect_data):
     return img
 
 def create_error_image(error_data):
-      image_path = 'base2.png'
+      image_path = 'assets/images/base2.png'
       img = Image.open(image_path)
       draw = ImageDraw.Draw(img)
 
-      font1 = ImageFont.truetype("fonts/font.ttf", size=40)
+      font1 = ImageFont.truetype("assets/fonts/font.ttf", size=40)
       max_width = 1790
 
       lines = []
