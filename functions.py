@@ -35,6 +35,7 @@ def draw_rounded_rectangle(draw, xy, color, border_radius, transparency_percenta
 special_char_replacements = {
     "LkU0mY": '?',
     "erxL8Q": '&',
+    "oJwa60": ' ',
     "hnGwq5": '/',
     "WDigwg": '.',
     "m3zziu": ':',
