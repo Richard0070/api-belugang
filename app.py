@@ -5,6 +5,7 @@ from io import BytesIO
 import asyncio
 from datetime import datetime
 import math
+import requests
 from flask import Flask, send_file, request, render_template
 from functions import *
 
