@@ -33,8 +33,8 @@ async def card_endpoint():
     rank = decoded_data.get('rank')
     color = decoded_data.get('color')
 
-    if not all([username, pfp_url, level, xp, xp_out_of, rank, color]):
-        return "Missing parameters", 400
+    # if not all([username, pfp_url, level, xp, xp_out_of, rank, color]):
+        # return "Missing parameters", 400
 
     await card(username, pfp_url, level, xp, xp_out_of, rank, color)
     return await send_file("assets/cache/rankcard.png")
