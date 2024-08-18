@@ -4,10 +4,10 @@ import aiohttp
 from io import BytesIO
 import asyncio
 import math
-from quart import Quart, send_file, request, render_template
+from flask import Flask, send_file, request, render_template
 from functions import *
 
-app = Quart(__name__)
+app = Flask(__name__)
 
 @app.route("/")
 def index():
