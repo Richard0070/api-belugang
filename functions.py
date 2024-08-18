@@ -22,7 +22,8 @@ def get_hex_code(color_name):
         'violet': '#EE82EE',
         'white': '#FFFFFF',
         'yellow': '#f1c431',
-        "arcane": "#41B2B0"
+        "arcane": "#41B2B0",
+        "card_base": "#FFFFFF"
     }
 
     # Convert color_name to lowercase to handle case-insensitivity
