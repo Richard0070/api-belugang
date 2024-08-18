@@ -9,6 +9,10 @@ from functions import *
 
 app = Quart(__name__)
 
+@app.route("/")
+def start():
+    return "♥️ BeluGANG API is Live!"
+    
 @app.route('/generate_card')
 async def card_endpoint():
     username = request.args.get('username')
