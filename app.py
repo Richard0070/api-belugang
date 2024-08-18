@@ -137,7 +137,7 @@ def check_redirect():
         }
 
         img = create_redirect_image(redirect_data)
-        img_byte_array = io.BytesIO()
+        img_byte_array = BytesIO()
         img.save(img_byte_array, format='PNG')
         img_byte_array.seek(0)
 
