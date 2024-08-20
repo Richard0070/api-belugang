@@ -6,7 +6,7 @@ import asyncio
 from datetime import datetime
 import math
 import requests
-from flask import Flask, send_file, request, render_template
+from flask import Flask, send_file, request, render_template, jsonify
 from functions import *
 
 app = Flask(__name__)
