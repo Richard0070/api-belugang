@@ -60,7 +60,7 @@ async def card(username, pfp_url, level, xp, xp_out_of, rank):
     selected_bg = random.choice(bg_cards)
     bg = Image.open(f"assets/rankcards/{selected_bg}.png").convert("RGBA")
     
-    bg.paste(avatar, (100, 60), mask=avatar)
+    bg.paste(avatar, (140, 60), mask=avatar)
 
     draw = ImageDraw.Draw(bg)
     member_name = "@" + username if len(username) <= 20 else f"{username[:17]}..."
@@ -77,7 +77,7 @@ async def card(username, pfp_url, level, xp, xp_out_of, rank):
     draw.text((760, 200), xp_text, (255, 255, 255), font=font2)   
     xp_text_width = draw.textlength(xp_text, font=font2)    
 
-    draw.text((760 + xp_text_width + 280, 200), formatted_rank, (255, 255, 255), font=font2)
+    draw.text((760 + xp_text_width + 40, 200), formatted_rank, (255, 255, 255), font=font2)
     
     progress_bar_img = progress_bar_image(percentage, height_pixels=40, width_pixels=750)    
     bg.paste(progress_bar_img, (480, 290), mask=progress_bar_img)
