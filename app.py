@@ -63,7 +63,7 @@ async def card(username, pfp_url, level, xp, xp_out_of, rank):
     bg.paste(avatar, (100, 60), mask=avatar)
 
     draw = ImageDraw.Draw(bg)
-    member_name = "@" + str(username)[:19]
+    member_name = "@" + username if len(username) <= 20 else f"{username[:17]}..."
     member_xp = shorten_int(int(xp))
     member_xp_out_of = shorten_int(int(xp_out_of))
     percentage = round(int(xp) / int(xp_out_of) * 100, 1)
@@ -72,9 +72,10 @@ async def card(username, pfp_url, level, xp, xp_out_of, rank):
 
     draw.text((480, 50), member_name, (255, 255, 255), font=font1)
     draw.text((480, 200), f"LEVEL - {level}", (255, 255, 255), font=font2)
-    draw.text((780, 200), f"XP - {member_xp} / {member_xp_out_of}", (255, 255, 255), font=font2)
-    draw.text((1080, 200), formatted_rank, (255, 255, 255), font=font2)
-
+    xp_text = f"XP - {member_xp} / {member_xp_out_of}"
+    xp_text_width = draw.textlength(xp_text, font=font2)    
+    draw.text((480 + xp_text_width + 20, 200), formatted_rank, (255, 255, 255), font=font2)
+    
     progress_bar_img = progress_bar_image(percentage, height_pixels=40, width_pixels=750)
     
     bg.paste(progress_bar_img, (480, 290), mask=progress_bar_img)
