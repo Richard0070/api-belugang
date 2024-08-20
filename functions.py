@@ -11,7 +11,7 @@ def round_to_lowest_hundred(number):
         return f"{number/1000:.0f}k"
 
 def shorten_int(n):
-    suffixes = ['', 'k', 'M', 'B', 'T', 'P', 'E', 'Z', 'Y']
+    suffixes = ['', 'K', 'M', 'B', 'T', 'P', 'E', 'Z', 'Y']
     magnitude = 0
     while abs(n) >= 1000:
         magnitude += 1
@@ -24,131 +24,48 @@ def shorten_int(n):
     else:
         return '{:.0f}{}'.format(n, suffixes[magnitude])
         
-def get_hex_code(color_name):
-    color_dict = {
-        'blue': '#3498DB',
-        'brown': '#8B4513',
-        'burgundy': '#800020',
-        'cerise': '#DE3163',
-        'cyan': '#00FFFF',
-        'gold': '#FFD700',
-        'gray': '#808080',
-        'green': '#008000',
-        'lavender': '#C277EF',
-        'midnight': '#191970',
-        'orange': '#FFA500',
-        'pink': '#ff66e8',
-        'purple': '#800080',
-        'red': '#FF0000',
-        'salmon': '#FA8072',
-        'tangerine': '#FFA07A',
-        'teal': '#008080',
-        'violet': '#EE82EE',
-        'white': '#FFFFFF',
-        'yellow': '#f1c431',
-        "arcane": "#41B2B0",
-        "card_base": "#FFFFFF"
-    }
-
-    # Convert color_name to lowercase to handle case-insensitivity
-    lower_color_name = color_name.lower()
-
-    # Check if the color name is in the dictionary
-    if lower_color_name in color_dict:
-        return color_dict[lower_color_name]
-    else:
-        return f"Hex code not found for {color_name}"
-
 def hex_to_rgb(hex_color):
-    # Remove '#' if it exists in the hex color code
     hex_color = hex_color.lstrip('#')
-
-    # Convert the hex color code to an RGB tuple
     rgb = tuple(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
     return rgb
-  
-def draw_rounded_rectangle(draw, xy, color, border_radius, transparency_percentage=0):
+
+def draw_rounded_rectangle(draw, xy, color, border_radius):
     top_left, bottom_right = xy
     x1, y1 = top_left
     x2, y2 = bottom_right
 
-    # Convert hexadecimal color to RGB tuple
     color_rgb = hex_to_rgb(color)
 
-    # Draw rectangle with curved edges
-    draw.rectangle([(x1 + border_radius, y1), (x2 - border_radius, y2)], fill=color_rgb)
-    draw.rectangle([(x1, y1 + border_radius), (x2, y2 - border_radius)], fill=color_rgb)
+    # Draw the rounded rectangle
+    draw.rectangle([x1 + border_radius, y1, x2 - border_radius, y2], fill=color_rgb)
+    draw.rectangle([x1, y1 + border_radius, x2, y2 - border_radius], fill=color_rgb)
+    draw.pieslice([x1, y1, x1 + 2 * border_radius, y1 + 2 * border_radius], 180, 270, fill=color_rgb)
+    draw.pieslice([x2 - 2 * border_radius, y1, x2, y1 + 2 * border_radius], 270, 360, fill=color_rgb)
+    draw.pieslice([x1, y2 - 2 * border_radius, x1 + 2 * border_radius, y2], 90, 180, fill=color_rgb)
+    draw.pieslice([x2 - 2 * border_radius, y2 - 2 * border_radius, x2, y2], 0, 90, fill=color_rgb)
 
-    # Draw four filled circles at each corner with transparency
-    draw.pieslice([x1, y1, x1 + 2 * border_radius, y1 + 2 * border_radius], 180, 270, fill=color_rgb + (int(255 * (1 - transparency_percentage / 100)),))
-    draw.pieslice([x2 - 2 * border_radius, y1, x2, y1 + 2 * border_radius], 270, 360, fill=color_rgb + (int(255 * (1 - transparency_percentage / 100)),))
-    draw.pieslice([x1, y2 - 2 * border_radius, x1 + 2 * border_radius, y2], 90, 180, fill=color_rgb + (int(255 * (1 - transparency_percentage / 100)),))
-    draw.pieslice([x2 - 2 * border_radius, y2 - 2 * border_radius, x2, y2], 0, 90, fill=color_rgb + (int(255 * (1 - transparency_percentage / 100)),))
-
-    # Apply transparency to the rectangle
-    alpha = int(255 * (1 - transparency_percentage / 100))
-    fill_color = (color_rgb[0], color_rgb[1], color_rgb[2], alpha)
-    draw.rectangle([x1 + border_radius, y1, x2 - border_radius, y2], fill=fill_color)
-
-def progress_bar_image(percentage, height_pixels, width_pixels, color_hex, transparency_percentage):
-    if percentage < 7:
-        percentage = 7
-    if percentage > 93:
-        percentage = 93
+def progress_bar_image(percentage, height_pixels, width_pixels):
     # Create a blank image with an RGBA mode
     image = Image.new('RGBA', (width_pixels, height_pixels), (255, 255, 255, 0))
 
     # Create a drawing object
     draw = ImageDraw.Draw(image)
 
-    # Calculate the width of the filled portion based on the percentage
+    # Set the border radius for the curved edges
+    border_radius = height_pixels // 2
+
+    # Draw the background rectangle with curved edges (backside)
+    draw_rounded_rectangle(draw, [(0, 0), (width_pixels, height_pixels)], "#333333", border_radius)
+
     fill_width = int(width_pixels * percentage / 100)
 
-    # Draw the background rectangle with curved edges and transparency
-    border_radius = 10
-    draw_rounded_rectangle(draw, [(0, 0), (width_pixels, height_pixels)], color_hex, border_radius, transparency_percentage)
+    if fill_width > border_radius * 2:
+        draw_rounded_rectangle(draw, [(0, 0), (fill_width, height_pixels)], "#a89eFF", border_radius)
+    else:
+        draw_rounded_rectangle(draw, [(0, 0), (fill_width + border_radius * 2, height_pixels)], "#a89eFF", border_radius)
 
-    # Draw the filled portion with curved edges and no transparency
-    draw_rounded_rectangle(draw, [(0, 0), (fill_width, height_pixels)], color_hex, border_radius)
-
-    # Draw the transparent portion with curved edges and transparency
-    transparent_width = width_pixels - fill_width
-    draw_rounded_rectangle(draw, [(fill_width, 0), (width_pixels, height_pixels)], color_hex, border_radius, transparency_percentage)
-
-    # Enlarge the image by 30%
-    enlarged_image = image.resize((int(width_pixels * 1.4), int(height_pixels * 1.4)))
-
-    # Return the enlarged image
-    return enlarged_image
+    return image
     
-# Special character replacements
-special_char_replacements = {
-    "LkU0mY": '?',
-    "erxL8Q": '&',
-    "oJwa60": ' ',
-    "hnGwq5": '/',
-    "WDigwg": '.',
-    "m3zziu": ':',
-    "VRfbjC": '=',
-    "J6u1mM": '!',
-    "QjpC4K": '_'
-}
-
-# Number replacements
-number_replacements = {
-    "c9h4n": '1',
-    "yasJb": '2',
-    "QDEMu": '3',
-    "VnBsl": '4',
-    "uji6t": '5',
-    "QafiD": '6',
-    "ip7o3": '7',
-    "ZIxmO": '8',
-    "sAbZG": '9',
-    "Gv2usn": '0'
-}
-
-# Letter replacements (uppercase)
 uppercase_letter_replacements = {
     "7Vp": 'A',
     "hrM": 'B',
