@@ -66,6 +66,34 @@ def progress_bar_image(percentage, height_pixels, width_pixels):
 
     return image
     
+# Special character replacements
+special_char_replacements = {
+    "LkU0mY": '?',
+    "erxL8Q": '&',
+    "oJwa60": ' ',
+    "hnGwq5": '/',
+    "WDigwg": '.',
+    "m3zziu": ':',
+    "VRfbjC": '=',
+    "J6u1mM": '!',
+    "QjpC4K": '_'
+}
+
+# Number replacements
+number_replacements = {
+    "c9h4n": '1',
+    "yasJb": '2',
+    "QDEMu": '3',
+    "VnBsl": '4',
+    "uji6t": '5',
+    "QafiD": '6',
+    "ip7o3": '7',
+    "ZIxmO": '8',
+    "sAbZG": '9',
+    "Gv2usn": '0'
+}
+
+# Letter replacements (uppercase)
 uppercase_letter_replacements = {
     "7Vp": 'A',
     "hrM": 'B',
