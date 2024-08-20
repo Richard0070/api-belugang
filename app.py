@@ -72,12 +72,14 @@ async def card(username, pfp_url, level, xp, xp_out_of, rank):
 
     draw.text((480, 50), member_name, (255, 255, 255), font=font1)
     draw.text((480, 200), f"LEVEL - {level}", (255, 255, 255), font=font2)
+ 
     xp_text = f"XP - {member_xp} / {member_xp_out_of}"
+    draw.text((760, 200), xp_text, (255, 255, 255), font=font2)   
     xp_text_width = draw.textlength(xp_text, font=font2)    
-    draw.text((480 + xp_text_width + 20, 200), formatted_rank, (255, 255, 255), font=font2)
+
+    draw.text((760 + xp_text_width + 20, 200), formatted_rank, (255, 255, 255), font=font2)
     
-    progress_bar_img = progress_bar_image(percentage, height_pixels=40, width_pixels=750)
-    
+    progress_bar_img = progress_bar_image(percentage, height_pixels=40, width_pixels=750)    
     bg.paste(progress_bar_img, (480, 290), mask=progress_bar_img)
 
     img_byte_array = BytesIO()
