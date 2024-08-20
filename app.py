@@ -6,6 +6,7 @@ import asyncio
 from datetime import datetime
 import math
 import requests
+import random
 from flask import Flask, send_file, request, render_template, jsonify
 from functions import *
 
@@ -30,52 +31,54 @@ async def card_endpoint():
     xp_out_of = decoded_data.get('xp_out_of')
     rank = decoded_data.get('rank')
 
-    img_byte_array = await card(username, pfp_url, level, xp, xp_out_of, rank, color="card_base")
+    img_byte_array = await card(username, pfp_url, level, xp, xp_out_of, rank)
     
     return send_file(img_byte_array, mimetype='image/png')
         
-async def card(username, pfp_url, level, xp, xp_out_of, rank, color):
-    # Fetch and process the profile picture
+async def card(username, pfp_url, level, xp, xp_out_of, rank):
     async with aiohttp.ClientSession() as session:
         async with session.get(pfp_url) as response:
             response.raise_for_status()
             image_data = await response.read()
     avatar = Image.open(BytesIO(image_data)).convert("RGBA")
-    
-    # Create circular mask
-    background = Image.new("RGBA", avatar.size, (255, 255, 255, 0))
+
+    new_size = (280, 280)
+    avatar = avatar.resize(new_size) # Resize avatar
+
     mask = Image.new("L", avatar.size, 0)
     draw = ImageDraw.Draw(mask)
     offset = 4
     draw.ellipse((offset, offset, avatar.size[0] - offset, avatar.size[1] - offset), fill=255)
-    avatar = Image.composite(avatar, background, mask)
+    avatar = Image.composite(avatar, Image.new("RGBA", avatar.size), mask)
 
-    bg = Image.open(f"assets/rankcards/{color}.png").convert("RGBA")
+    font1 = ImageFont.truetype("assets/fonts/Montserrat-Bold.ttf", size=60)
+    font2 = ImageFont.truetype("assets/fonts/Montserrat-Bold.ttf", size=40)
+
+    # Randomize the background card
+    bg_cards = ["card_1"]  
     
-    # Paste the avatar onto the background
-    bg.paste(avatar, (12, 12), mask=avatar)
+    selected_bg = random.choice(bg_cards)
+    bg = Image.open(f"assets/rankcards/{selected_bg}.png").convert("RGBA")
     
-    # Draw additional elements on the background
+    bg.paste(avatar, (100, 60), mask=avatar)
+
     draw = ImageDraw.Draw(bg)
-    member_name = str(username)[:19]
+    member_name = "@" + str(username)[:19]
+    member_xp = shorten_int(int(xp))
     member_xp_out_of = shorten_int(int(xp_out_of))
     percentage = round(int(xp) / int(xp_out_of) * 100, 1)
+
+    formatted_rank = f"# {int(rank)//1000}K+" if int(rank) > 1000 else f"# {rank}"
+
+    draw.text((480, 50), member_name, (255, 255, 255), font=font1)
+    draw.text((480, 200), f"LEVEL - {level}", (255, 255, 255), font=font2)
+    draw.text((780, 200), f"XP - {member_xp} / {member_xp_out_of}", (255, 255, 255), font=font2)
+    draw.text((1080, 200), formatted_rank, (255, 255, 255), font=font2)
+
+    progress_bar_img = progress_bar_image(percentage, height_pixels=40, width_pixels=750)
     
-    font_normal = ImageFont.truetype("assets/fonts/font1.ttf", 30)
-    font_normal4 = ImageFont.truetype("assets/fonts/font3.ttf", 24)
-    font_normal5 = ImageFont.truetype("assets/fonts/font2.ttf", 25)
+    bg.paste(progress_bar_img, (480, 290), mask=progress_bar_img)
 
-    draw.text((148, 25), member_name, (233, 233, 233), font=font_normal)
-    draw.text((152, 95), f"Level: {level}", (255, 255, 255), font=font_normal4)
-    draw.text((275, 95), f"XP: {xp}/{member_xp_out_of}", (255, 255, 255), font=font_normal4)
-    draw.text((440, 95), f"Rank: #{rank}", (255, 255, 255), font=font_normal4)
-    draw.text((36, 144), f"{percentage}%", (116, 120, 121), font=font_normal5)
-
-    # Generate progress bar in memory and paste it onto the card
-    progress_bar_img = progress_bar_image(percentage, 20, 300, get_hex_code(color), 70)
-    bg.paste(progress_bar_img, (115, 150), mask=progress_bar_img)
-
-    # Save to BytesIO instead of file
     img_byte_array = BytesIO()
     bg.save(img_byte_array, format='PNG')
     img_byte_array.seek(0)
