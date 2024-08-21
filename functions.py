@@ -60,9 +60,9 @@ def progress_bar_image(percentage, height_pixels, width_pixels):
     fill_width = int(width_pixels * percentage / 100)
 
     if fill_width > border_radius * 2:
-        draw_rounded_rectangle(draw, [(0, 0), (fill_width, height_pixels)], "#a89eFF", border_radius)
+        draw_rounded_rectangle(draw, [(0, 0), (fill_width, height_pixels)], "#d8cbb9", border_radius)
     else:
-        draw_rounded_rectangle(draw, [(0, 0), (fill_width + border_radius * 2, height_pixels)], "#a89eFF", border_radius)
+        draw_rounded_rectangle(draw, [(0, 0), (fill_width + border_radius * 2, height_pixels)], "#d8cbb9", border_radius)
 
     return image
     
