@@ -31,6 +31,9 @@ async def card_endpoint():
     xp_out_of = decoded_data.get('xp_out_of')
     rank = decoded_data.get('rank')
 
+    if pfp_url = "":
+        pfp_url = "https://cdn.discordapp.com/embed/avatars/0.png"
+
     img_byte_array = await card(username, pfp_url, level, xp, xp_out_of, rank)
     
     return send_file(img_byte_array, mimetype='image/png')
