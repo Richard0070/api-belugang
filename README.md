@@ -1,7 +1,7 @@
 # 🌐 BeluGANG's Private API
 > created by **@royalrizen** & **@thediamondroblox**
 
-## 🔗 Current Endpoints —
+## 🔗 Endpoints —
 
 1. `/generate_card`
 2. `/redirect`
@@ -10,3 +10,5 @@
 <br>
 
 ```Change Node version to 18x while hosting on Vercel```
+
+goodbye
