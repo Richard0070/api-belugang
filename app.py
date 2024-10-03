@@ -58,7 +58,7 @@ async def card(username, pfp_url, level, xp, xp_out_of, rank):
     font2 = ImageFont.truetype("assets/fonts/Montserrat-Bold.ttf", size=40)
 
     # Randomize the background card
-    bg_cards = ["halloween"]  # rename to card_1 later
+    bg_cards = ["card_1"]  # rename to card_1 later
     
     selected_bg = random.choice(bg_cards)
     bg = Image.open(f"assets/rankcards/{selected_bg}.png").convert("RGBA")
