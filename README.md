@@ -10,5 +10,3 @@
 <br>
 
 ```Change Node version to 18x while hosting on Vercel```
-
-goodbye
