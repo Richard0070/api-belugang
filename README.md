@@ -7,6 +7,6 @@
 2. `/redirect`
 
 <br>
-<br>
 
-```Change Node version to 18x while hosting on Vercel```
+> [!IMPORTANT] 
+> Change Node version to **18x** while hosting on Vercel.
