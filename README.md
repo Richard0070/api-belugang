@@ -1,6 +1,6 @@
 # 🌐 BeluGANG's Private API
 
-This API is designed for level card generation and link redirect checking, created by **@royalrizen** and **@thediamondroblox**.
+This API is designed for level card generation and link redirects checking, created by **@royalrizen** and **@thediamondroblox**.
 
 --- 
 
@@ -11,5 +11,5 @@ This API is designed for level card generation and link redirect checking, creat
 
 ---
 
-> [!IMPORTANT]  
+> [!CAUTION]  
 > Please change the Node version to **18.x** when hosting on Vercel to ensure compatibility.
